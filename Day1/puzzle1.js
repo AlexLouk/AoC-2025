@@ -1,5 +1,4 @@
 const fs = require('node:fs');
-const { start } = require('node:repl');
 
 function readAndFormatData() {
     return fs.readFileSync('./input.txt', 'utf-8')
