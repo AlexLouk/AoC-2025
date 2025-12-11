@@ -11,7 +11,7 @@ function readAndFormatData() {
         })
 }
 
-function calcPasswordPart1(){
+function calcPasswordPart1() {
     const data = readAndFormatData();
     let startingPoint = 50;
     let zeroes = 0;
@@ -19,15 +19,16 @@ function calcPasswordPart1(){
     data.forEach(line => {
         if (line.direction === "L") {
             startingPoint -= line.steps;
-        } else {
+        } else if (line.direction === "R") {
             startingPoint += line.steps;
         }
 
         startingPoint = ((startingPoint % 100) + 100) % 100;
 
-        if(startingPoint === 0)
+        if (startingPoint === 0) {
             zeroes++;
-    })
+        }
+    });
 
     return zeroes;
 }
