@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const fs = require('fs');
 
 function readAndFormatData() {
     return fs.readFileSync('./input.txt', 'utf-8')
