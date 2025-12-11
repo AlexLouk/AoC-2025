@@ -3,7 +3,7 @@ const fs = require('node:fs');
 function readAndFormatData() {
     return fs.readFileSync('./input.txt', 'utf-8')
         .trim()
-        .split('\r\n')
+        .split('\n')
         .map(line => {
             const direction = line[0];
             const steps = parseInt(line.slice(1));
@@ -11,31 +11,55 @@ function readAndFormatData() {
         })
 }
 
-function puzzle1() {
+function calcPasswordPart1(){
     const data = readAndFormatData();
     let startingPoint = 50;
     let zeroes = 0;
 
     data.forEach(line => {
-        let oldPos = startingPoint;
-        zeroes += Math.floor(Math.abs(line.steps) / 100);
-
         if (line.direction === "L") {
             startingPoint -= line.steps;
-            if (oldPos >= 0 && startingPoint < 0){
-                zeroes++;
-            }
         } else {
             startingPoint += line.steps;
-            if (oldPos <= 99 && startingPoint > 99){
-                zeroes++;
-            }
         }
 
         startingPoint = ((startingPoint % 100) + 100) % 100;
+
+        if(startingPoint === 0)
+            zeroes++;
     })
 
-    console.log(`The amount of Zeroes hit is: ${zeroes}`);
+    return zeroes;
 }
 
-puzzle1();
+function calcPasswordPart2() {
+  const data = readAndFormatData();
+  let pos = 50;
+  let zeroes = 0;
+
+  data.forEach(line => {
+    const dir = line.direction;
+    const steps = line.steps;
+
+    for (let i = 0; i < steps; i++) {
+      if (dir === "L") {
+        pos = (pos - 1 + 100) % 100;
+      } else {
+        pos = (pos + 1) % 100;
+      }
+
+      if (pos === 0) {
+        zeroes++;
+      }
+    }
+  });
+
+  return zeroes;
+}
+
+
+let pw1 = calcPasswordPart1();
+let pw2 = calcPasswordPart2();
+
+console.log(`The first password is: ${pw1}.`)
+console.log(`The second password is:${pw2}.`)
